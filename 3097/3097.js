@@ -95,7 +95,7 @@ const renderForm = ({
     const passwordValue = _passwordValue || '';
 
     return (`
-    <form class="form" action="http://localhost:${port}/validate" method="get">
+    <form class="form" action="/validate" method="get">
 
 
         <label>
