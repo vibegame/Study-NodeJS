@@ -33,10 +33,18 @@ webserver.post('/vote', (req, res) => {
 
     const value = req.body.value;
 
+    if(value === null) {
+        res.status(504).send({
+            errorMessage: "Bad Request"
+        });
+        return;
+    }
+
     if(variants.indexOf(value) === -1) {
         res.status(504).send({
             errorMessage: "There is no such answer"
         });
+        return;
     }
 
     stats[value]++;

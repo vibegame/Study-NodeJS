@@ -78,7 +78,6 @@
     const onVote = async () => {
 
         await api.voteDB(state.activeVote);
-        await onGetStats();
 
         setState({
             activeVote: null
