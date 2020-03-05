@@ -1,0 +1,23 @@
+html, body {
+    font-size: 14px;
+    font-family: "Verdana";
+}
+
+.votes {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+}
+
+.variant {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+}
+
+.variant.active {
+    background-color: #32C953;
+    color: #ffffff;
+}
