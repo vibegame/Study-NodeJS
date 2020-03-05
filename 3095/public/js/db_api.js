@@ -1,4 +1,4 @@
-const HOST = "http://192.168.65.111:1080";
+const HOST = "http://localhost:1080";
 
 const URLS = {
     GET_VARIANTS: "/variants",

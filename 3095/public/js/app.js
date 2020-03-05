@@ -21,11 +21,11 @@
             const wrapper = document.createElement('div');
             wrapper.classList.add("stats-wrapper");
             const row = document.createElement('div');
-            wrapper.classList.add("stats-row");
+            row.classList.add("stats-row");
             const name = document.createElement('div');
-            wrapper.classList.add("stats-name");
+            name.classList.add("stats-name");
             const value = document.createElement('div');
-            wrapper.classList.add("stats-value");
+            value.classList.add("stats-value");
 
             name.textContent = variant;
             value.textContent = state.stats[variant];
