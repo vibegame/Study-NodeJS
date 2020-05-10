@@ -1,10 +1,11 @@
-const isLocal = true;
+const isLocal = false;
 
 const LOCALHOST = "http://localhost:1080";
 
 const IPHOST = "http://192.168.65.111:1080";
 
 const HOST = isLocal ? LOCALHOST : IPHOST;
+
 
 const URLS = {
     GET_VARIANTS: "/variants",
@@ -13,50 +14,37 @@ const URLS = {
     GET_QUESTION: "/question"
 };
 
-class Api {
-
-    getVariantsDB = async () => {
+class Dbapi {
+    async getVariants() {
         const data = await fetch(`${HOST}${URLS.GET_VARIANTS}`)
         .then(response => response.json())
         .catch(error => console.error(error));
-
-        console.log("%cGET Variants", "color: purple;");
-
+        
         return data;
+    }
 
-    };
+    async getStats() {
+        const data = await fetch(`${HOST}${URLS.GET_STATS}`, {
+            "Content-Disposition": "attachment"
+        })
+        .then(response => response.json())
+        .catch(error => console.error(error));
+        
+        return data;
+    }
 
-    getQuestionDB = async () => {
+    async getQuestion() {
         const data = await fetch(`${HOST}${URLS.GET_QUESTION}`)
         .then(response => response.text())
         .catch(error => console.error(error));
 
-        console.log("%cGET Question", "color: purple;");
-
         return data;
-    };
+    }
 
-    getStatsDB = async () => {
-        const data = await fetch(`${HOST}${URLS.GET_STATS}`)
-        .then(response => response.json())
-        .catch(error => console.error(error));
-
-        console.log("%cGET Stats", "color: purple;");
-
-        return data;
-    };
-
-    voteDB = async (vote) => {
-
-        if(!vote) {
-            return "Bad request";
-        }
-
+    async vote(vote) {
         const data = {
             value: vote
         };
-
-
 
         await fetch(`${HOST}${URLS.VOTE}`, {
             method: "POST",
@@ -65,9 +53,7 @@ class Api {
             },
             body: JSON.stringify(data)
         });
-
-    };
-
+    }
 }
 
-const api = new Api();
+const database = new Dbapi();
