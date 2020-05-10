@@ -4,8 +4,24 @@ const path = require('path');
 const databaseFile = path.join(__dirname, 'data.json');
 
 const get = () => {
-    const response = fs.readFileSync(databaseFile, "utf8");
-    return response ? JSON.parse(response) : {};
+
+    let data = '';
+
+    try {
+        data = fs.readFileSync(databaseFile, "utf8");
+    } 
+    catch (error) {
+        if (error.code === 'ENOENT') {
+            fs.writeFile(databaseFile, "", function (err) {
+                if (err) throw err;
+                console.log('File is created successfully.');
+              });
+        } 
+        else {
+            throw err;
+        }
+    }
+    return data ? JSON.parse(data) : {};
 };
 
 const DATABASE = get();
