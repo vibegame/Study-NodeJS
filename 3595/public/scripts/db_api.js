@@ -1,4 +1,4 @@
-const isLocal = true;
+const isLocal = false;
 
 const LOCALHOST = "http://localhost:1080";
 
