@@ -6,17 +6,23 @@ const port = 1080;
 
 const question = 'Who do you want to vote for?';
 
-const variants = ['Nikita Tolstik', 'Elia Middle', 'Hellski Api', 'Onto Ken'];
+const variants = {
+    '1': 'Nikita Tolstik',
+    '2': 'Elia Middle',
+    '3': 'Hellski Api',
+    '4': 'Onto Ken',
+};
 
 webserver.use(express.json({extended:true}));
 
 webserver.use(express.static('public'));
 
 const stats = db.data.stats || (() => {
-    
     const stats = {};
 
-    variants.forEach(variant => stats[variant] = 0);
+    for(let variant in variants) {
+        stats[variant] = 0;
+    }
     
     return stats;
 })();
@@ -37,13 +43,6 @@ webserver.post('/vote', (req, res) => {
     if(value === null) {
         res.status(504).send({
             errorMessage: "Bad Request"
-        });
-        return;
-    }
-
-    if(variants.indexOf(value) === -1) {
-        res.status(504).send({
-            errorMessage: "There is no such answer"
         });
         return;
     }

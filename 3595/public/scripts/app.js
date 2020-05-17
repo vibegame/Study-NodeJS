@@ -31,8 +31,8 @@ const renderVariants = async () => {
 
     const variants = await database.getVariants();
 
-
-    variants.forEach(variantText => {
+    for(let key in variants) {
+        const variantText = variants[key];
         const eVariant = renderVariant();
         eVariant.innerHTML = variantText;
         eVariant.addEventListener("click", event => {
@@ -41,11 +41,11 @@ const renderVariants = async () => {
             }
             
             voteInfo.activeVariantElement = eVariant;
-            voteInfo.currentVote = variantText;
+            voteInfo.currentVote = key;
             eVariant.classList.add("active");
         }) 
         variantsBlock.appendChild(eVariant);
-    });
+    }
 
     document.querySelector(".voteBlock").appendChild(variantsBlock);
 };
@@ -58,7 +58,6 @@ const renderVoteButton = async () => {
 
     button.addEventListener("click", async event => {
         if(!voteInfo.currentVote) return;
-
         await database.vote(voteInfo.currentVote);
 
         if(voteInfo.activeVariantElement) {
@@ -67,54 +66,51 @@ const renderVoteButton = async () => {
 
         voteInfo.currentVote = null;
         voteInfo.activeVariantElement = null;
+        await renderStats();
     });
 
     document.querySelector(".voteBlock").appendChild(button);
 }; 
 
-const renderDownloadStatsButton = async () => {
+const renderStats = async () => {
 
-    const button = document.createElement("button");
+    const data = await database.getStats();
 
-    button.classList.add("downloadButton");
+    const translateData = async (data) => {
 
-    button.innerHTML = "Get Stats";
+        const variants = await database.getVariants();
 
-    button.addEventListener("click", async event => {
-        const data = await database.getStats();
-
-        if(document.getElementById("textarea-stats")) {
-            document.getElementById("textarea-stats").parentNode.removeChild(document.getElementById("textarea-stats"));
+        let str = "";
+        for(let key in data) {
+            const count = data[key];
+            str += `${variants[key]} have ${count} vote(s) \n`;
         }
 
-        const translateData = (data) => {
+        return str;
+    };
 
-            let str = "";
-            for(let key in data) {
-                const count = data[key];
-                str += `${key} have ${count} vote(s) \n`;
-            }
-
-            return str;
-        };
-
+    if(document.getElementById('textarea-stats')) {
+        const textarea = document.getElementById('textarea-stats');
+        textarea.innerHTML = await translateData(data);
+    } else {
         const textarea = document.createElement("textarea");
-        textarea.innerHTML = translateData(data);
+        textarea.innerHTML = await translateData(data);
         textarea.id = "textarea-stats";
         textarea.readOnly = true;
         textarea.style.resize = "none";
         textarea.style.height = "300px";
-
         document.querySelector(".voteBlock").appendChild(textarea);
+    }
+};
 
-    });
+const rerenderStats = async () => {
+    
 
-    document.querySelector(".voteBlock").appendChild(button);
 };
 
 (async function() {
     await renderQuestion();
     await renderVariants();
     await renderVoteButton();
-    await renderDownloadStatsButton();
+    await renderStats();
 })();
