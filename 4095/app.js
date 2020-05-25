@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const fetch = require('isomorphic-fetch');
-const inspector = require('inspector');
 
 app.use(express.static('public'));
 
@@ -68,22 +67,25 @@ const getStringBodyFromResponse = (body) => {
 app.post('/proxy', async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
 
-    const response = await sendRequest(req.body.method, req.body);
+    try {
+        const response = await sendRequest(req.body.method, req.body);
 
-    const stringBody = await getStringBodyFromResponse(response.body);
+        const stringBody = await getStringBodyFromResponse(response.body);
 
-    const headers = {};
+        const headers = {};
 
-    response.headers.forEach((name, key) => {
-        headers[key] = name;
-    });
-    
+        response.headers.forEach((name, key) => {
+            headers[key] = name;
+        });
 
-    res.send(JSON.stringify({
-        body: stringBody,
-        status: response.status,
-        headers
-    }));
+        res.send(JSON.stringify({
+            body: stringBody,
+            status: response.status,
+            headers
+        }));
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 app.listen(port);
