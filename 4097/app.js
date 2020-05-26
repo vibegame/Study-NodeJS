@@ -57,12 +57,15 @@ const getStyles = () => {
             font-family: 'Century Gothic', sans-serif;
         }
         
-        .title-registered {
-            font-size: 40px;
+        .registered {
             position: absolute;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
+        }
+        
+        .registered .title-registered {
+            font-size: 40px;
             font-weight: bold;
             color: #0078D6;
             text-transform: uppercase;
@@ -107,6 +110,19 @@ const getStyles = () => {
             margin-top: 3px;
         }
         
+        .registered .result-field {
+            display: flex;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4434D6;
+            align-items: center;
+        }
+        
+        .registered .result-field-value {
+            font-weight: normal;
+            margin-left: 6px;
+        }
+        
         </style>
         `
     );
@@ -138,17 +154,33 @@ const renderForm = ({username, password}) => {
     ) + getStyles();
 };
 
-const renderSuccess = () => {
+const renderSuccess = ({username, password}) => {
 
     return (
         `
-        <h1 class="title-registered">
-            Registered
-        </h1> 
+            <div class="registered">
+                <h1 class="title-registered">
+                    Registered
+                </h1>
+                <span class="result-field">Username: <span class="result-field-value">${username}</span></span>
+                <span class="result-field">Password: <span class="result-field-value">${password}</span></span>  
+            </div>
         `
     ) + getStyles();
 
 
+};
+
+const convertToStringParams = params => {
+    const stringParamsArray = Object.keys(params).map(paramName => {
+
+        const paramValue = params[paramName];
+
+        return `${paramName}=${paramValue}`;
+    })
+
+
+    return stringParamsArray.join('&');
 };
 
 app.get('/', (req, res) => {
@@ -159,12 +191,9 @@ app.get('/', (req, res) => {
 });
 
 app.post('/validate', (req, res) => {
-
     const validatedUsername = validateUsername(req.body.username);
 
     const validatedPassword = validatePassword(req.body.password);
-
-    console.log(validatedPassword, validatedUsername);
 
     if (!validatedUsername.ok || !validatedPassword) {
         res.send(renderForm({
@@ -173,15 +202,13 @@ app.post('/validate', (req, res) => {
         }));
         return;
     } else  {
-        res.setHeader('Location', '/registered');
+        res.setHeader('Location', '/registered' + `?${convertToStringParams({username: validatedUsername.value, password: validatedPassword.value})}`);
         res.send(303);
     }
-
-
 });
 
 app.get('/registered', (req, res) => {
-    res.send(renderSuccess());
+    res.send(renderSuccess(req.query));
 });
 
 app.listen(port, () => {
