@@ -100,7 +100,7 @@ app.post('/proxy', async (req, res) => {
             headers
         }));
     } catch (error) {
-        console.warn("ERROR");
+        console.warn(error);
         res.send(error);
     }
 });
