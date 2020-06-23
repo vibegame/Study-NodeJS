@@ -18,7 +18,7 @@ function getStringParams(params) {
 }
 
 const createRequestGET = async ({headers, params, url}) => {
-    console.warn("Request GET");
+    console.warn("Request GET", `${url}?${getStringParams(params)}`);
     return await fetch(`${url}?${getStringParams(params)}`, {
         method: 'GET',
         headers
