@@ -64,6 +64,12 @@ const getStringBodyFromResponse = (body) => {
 
 };
 
+app.get('/test', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.send("GOOD");
+})
+
 app.post('/proxy', async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
