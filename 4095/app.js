@@ -18,7 +18,10 @@ function getStringParams(params) {
 
 const createRequestGET = async ({headers, params, url}) => {
     console.warn("Request GET", `${url}?${getStringParams(params)}`);
-    return await fetch(`https://restcountries.eu/rest/v2/name/eesti`);
+    return await fetch(`${url}?${getStringParams(params)}`, {
+        method: 'GET',
+        headers
+    });
 };
 
 const createRequestPOST = async ({headers, body, url}) => {
