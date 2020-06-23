@@ -7,6 +7,8 @@ const fetch = require('isomorphic-fetch');
 // parse application/json
 // app.use(bodyParser.json({ extended: true }));
 
+app.use(express.json({extended:true}));
+
 app.use(express.static('public'));
 
 function getStringParams(params) {
@@ -67,7 +69,6 @@ const getStringBodyFromResponse = (body) => {
 };
 
 app.get('/test', (req, res) => {
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST')
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.send("GOOD");
