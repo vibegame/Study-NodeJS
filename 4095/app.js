@@ -5,9 +5,7 @@ const bodyParser = require('body-parser');
 const fetch = require('isomorphic-fetch');
 
 // parse application/json
-// app.use(bodyParser.json({ extended: true }));
-
-app.use(express.json({extended:true}));
+app.use(bodyParser.json({ extended: true }));
 
 app.use(express.static('public'));
 
@@ -69,8 +67,8 @@ const getStringBodyFromResponse = (body) => {
 };
 
 app.get('/test', (req, res) => {
+    console.warn(`Webserver is running. Port: ${port}`);
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.send("GOOD");
 });
 
