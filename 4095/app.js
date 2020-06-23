@@ -76,9 +76,18 @@ app.post('/proxy', async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     try {
+
+        console.warn('response getting')
+
         const response = await sendRequest(req.body.method, req.body);
 
+        console.warn('response got')
+
+        console.warn('stringBody getting')
+
         const stringBody = await getStringBodyFromResponse(response.body);
+
+        console.warn('stringBody got')
 
         const headers = {};
 
