@@ -18,6 +18,7 @@ function getStringParams(params) {
 }
 
 const createRequestGET = async ({headers, params, url}) => {
+    console.warn("Request GET");
     return await fetch(`${url}?${getStringParams(params)}`, {
         method: 'GET',
         headers
@@ -25,6 +26,7 @@ const createRequestGET = async ({headers, params, url}) => {
 };
 
 const createRequestPOST = async ({headers, body, url}) => {
+    console.warn("Request POST");
     return await fetch(url, {
         method: 'POST',
         body,
@@ -40,8 +42,6 @@ const sendRequest = async (requestMethod, data) => {
             return await createRequestPOST(data);
     }
 };
-
-
 
 app.options('/proxy', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
