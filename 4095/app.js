@@ -67,7 +67,6 @@ const getStringBodyFromResponse = (body) => {
 };
 
 app.get('/test', (req, res) => {
-    console.warn(`Webserver is running. Port: ${port}`);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.send("GOOD");
 });
@@ -97,4 +96,6 @@ app.post('/proxy', async (req, res) => {
     }
 });
 
-app.listen(port);
+app.listen(port, () => {
+    console.warn(`Webserver is running. Port: ${port}`);
+});
