@@ -4,6 +4,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const fetch = require('isomorphic-fetch');
 
+app.use(express.json({extended:true}));
+
 app.use(express.static('public'));
 
 function getStringParams(params) {
@@ -68,7 +70,7 @@ app.get('/test', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.send("GOOD");
-})
+});
 
 app.post('/proxy', async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
