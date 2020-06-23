@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
-const fetch = require('node-fetch');
+const fetch = require('isomorphic-fetch');
 
 // parse application/json
 app.use(bodyParser.json({ extended: true }));
