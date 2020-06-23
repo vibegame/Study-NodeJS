@@ -4,7 +4,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const fetch = require('isomorphic-fetch');
 
-app.use(express.json({extended:true}));
+// parse application/json
+app.use(bodyParser.json({ extended: true }));
 
 app.use(express.static('public'));
 
@@ -40,8 +41,7 @@ const sendRequest = async (requestMethod, data) => {
     }
 };
 
-// parse application/json
-app.use(bodyParser.json({ extended: true }));
+
 
 app.options('/proxy', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -67,6 +67,7 @@ const getStringBodyFromResponse = (body) => {
 };
 
 app.get('/test', (req, res) => {
+    console.log('111')
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.send("GOOD");
