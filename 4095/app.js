@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const fetch = require('isomorphic-fetch');
 
 // parse application/json
-app.use(bodyParser.json({ extended: true }));
+// app.use(bodyParser.json({ extended: true }));
 
 app.use(express.static('public'));
 
