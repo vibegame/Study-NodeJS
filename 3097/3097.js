@@ -72,7 +72,7 @@ const renderFormStyles = () => {
     }
 
     .error {
-        color: red;
+        color: green;
         font-weight: bold;
         font-size: 13px;
     }
