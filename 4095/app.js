@@ -10,6 +10,25 @@ app.use(bodyParser.json({ extended: true }));
 
 app.use(express.static('public'));
 
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
 function getStringParams(params) {
     const arrStringParams = params.map((param) => {
         return `${param.name}=${param.value}`;
@@ -19,17 +38,13 @@ function getStringParams(params) {
 }
 
 const createRequestGET = async ({headers, params, url}) => {
-    console.warn("Request GET", `${url}?${getStringParams(params)}`);
-    const res=await fetch(`${url}?${getStringParams(params)}`, {
+    return await fetch(`${url}?${getStringParams(params)}`, {
         method: 'GET',
         headers
     });
-    console.log("Request GET done",res);
-    return res;
 };
 
 const createRequestPOST = async ({headers, body, url}) => {
-    console.warn("Request POST");
     return await fetch(url, {
         method: 'POST',
         body,
@@ -45,12 +60,6 @@ const sendRequest = async (requestMethod, data) => {
             return await createRequestPOST(data);
     }
 };
-
-app.options('/proxy', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.send('');
-});
 
 const getStringBodyFromResponse = (body) => {
     let data = '';
@@ -69,28 +78,12 @@ const getStringBodyFromResponse = (body) => {
 
 };
 
-app.get('/test', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.send("GOOD");
-});
-
 app.post('/proxy', async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
     try {
-
-        console.warn('response getting')
 
         const response = await sendRequest(req.body.method, req.body);
 
-        console.warn('response got')
-
-        console.warn('stringBody getting')
-
         const stringBody = await getStringBodyFromResponse(response.body);
-
-        console.warn('stringBody got')
 
         const headers = {};
 
@@ -103,12 +96,13 @@ app.post('/proxy', async (req, res) => {
             status: response.status,
             headers
         }));
-    } catch (error) {
+    }
+    catch (error) {
         console.warn(error);
         res.send(error);
     }
 });
 
 app.listen(port, () => {
-    console.warn(`Webserver is running. Port: ${port}`);
+    console.warn(`App is running. Port: ${port}`);
 });
