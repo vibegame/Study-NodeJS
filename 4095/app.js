@@ -55,7 +55,9 @@ const get = () => {
             throw error;
         }
     }
-    return data ? JSON.parse(data) : {};
+    return data ? JSON.parse(data) : {
+        configures: []
+    };
 };
 
 const database = get();
