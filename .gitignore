@@ -1,6 +1,2 @@
-./node_modules
-./idea/*
-node_modules
-
-./3095/data.json
+node_modules/
 ./4095/data.json
