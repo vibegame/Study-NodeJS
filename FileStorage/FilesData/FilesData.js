@@ -5,8 +5,6 @@ const path = require("path");
 const dataUrl = path.resolve(__dirname, "data.json");
 
 class FilesData {
-    uploadsFilesUrl = null;
-
     data = null;
 
     constructor(uploadsFilesUrl) {
@@ -14,13 +12,10 @@ class FilesData {
             fs.mkdirSync(uploadsFilesUrl);
         }
 
-        this.uploadsFilesUrl = uploadsFilesUrl;
-
         this.data = this.getData();
 
-        if(this.data.rootUrl !== uploadsFilesUrl) {
-            this.data.rootUrl = uploadsFilesUrl;
-        }
+        this.data.rootUrl = uploadsFilesUrl;
+
         this.data.files = this.data.files.filter(fileData => {
             return fs.existsSync(fileData.path);
         });
