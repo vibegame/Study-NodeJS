@@ -135,5 +135,7 @@ app.post("/download-file", function (request, response) {
     response.download(path.resolve(uploadsUrl, request.body.filename));
 });
 
-app.listen(1080);
+app.listen(1080, () => {
+    console.log("FileStorage is running on port 1080");
+});
 
