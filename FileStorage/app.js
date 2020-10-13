@@ -25,7 +25,7 @@ io.sockets.on('connection', client => {
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-// app.use(morgan('dev'));
+app.use(morgan('tiny'));
 
 app.use(express.static('static'));
 
@@ -135,7 +135,7 @@ app.post("/download-file", function (request, response) {
     response.download(path.resolve(uploadsUrl, request.body.filename));
 });
 
-app.listen(1080, () => {
-    console.log("FileStorage is running on port 1080");
+app.listen(80, () => {
+    console.log("FileStorage is running on port 80");
 });
 

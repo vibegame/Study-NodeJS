@@ -85,10 +85,10 @@ const renderFormStyles = () => {
 };
 
 const renderForm = ({
-    _passwordValue,
-    _loginValue,
-    error
-}) => {
+                        _passwordValue,
+                        _loginValue,
+                        error
+                    }) => {
 
     const loginValue = _loginValue || '';
     const passwordValue = _passwordValue || '';
@@ -134,7 +134,7 @@ webserver.get('/', (req, res) => {
         renderForm({
             _loginValue: '',
             _passwordValue: ''
-        }) 
+        })
     );
 });
 
@@ -147,7 +147,7 @@ webserver.get('/validate', (req, res) => {
                 _loginValue: req.query.login,
                 _passwordValue: req.query.password,
                 error: 'Слишком короткий пароль!'
-            }) 
+            })
         );
     }
     else if(req.query.login.length < 5) {
@@ -157,7 +157,7 @@ webserver.get('/validate', (req, res) => {
                 _loginValue: req.query.login,
                 _passwordValue: req.query.password,
                 error: 'Маленький логин!'
-            }) 
+            })
         );
     }
     else {
@@ -170,6 +170,6 @@ webserver.get('/validate', (req, res) => {
     }
 });
 
-webserver.listen(port,()=>{ 
+webserver.listen(port,()=>{
     console.log("web server running on port "+port);
-}); 
+});
