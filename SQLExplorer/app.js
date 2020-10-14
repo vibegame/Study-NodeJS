@@ -12,9 +12,9 @@ const cors = require("cors");
 
 const connection = mysql.createConnection({
     host     : 'localhost',
-    user     : 'root',
+    user     : 'admin',
     password : '',
-    database : 'sql-explorer'
+    database : 'learning_db'
 });
 
 webserver.use(cors());
@@ -27,11 +27,14 @@ webserver.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 webserver.use(bodyParser.json())
 
+webserver.use(express.static('public'));
+
 connection.connect((err) => {
     if(err)
-        console.log("Ошибка подключения к базе данных", err);
-    else
-        console.log(`Connected to database "sql-explorer"`);
+        console.log("Failure to connect to database", err);
+    else {
+        console.log(`Successful connected to database`);
+    }
 });
 
 routeToDB.post("/request", (req, res) => {
@@ -66,18 +69,6 @@ routeToDB.post("/request", (req, res) => {
 });
 
 webserver.use("/database", routeToDB);
-
-setTimeout(() => {
-    connection.query("show datables", (err, result) => {
-        if(err) {
-            console.log("Ошибка", err);
-        }
-        else {
-            console.log("Реузльтат", result);
-        }
-    });
-
-}, 5000);
 
 webserver.listen(3030, () => {
     console.log("Webserver is listening on port " + PORT);
