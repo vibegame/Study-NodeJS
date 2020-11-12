@@ -1,0 +1,26 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ApiRouter = void 0;
+const express = require("express");
+const register_1 = require("./register/register");
+const login_1 = require("./login/login");
+const confirmAccount_1 = require("./confirmAccount/confirmAccount");
+const refreshToken_1 = require("./refreshSession/refreshToken");
+const getUserData_1 = require("./getUserData/getUserData");
+const getListFiles_1 = require("./getListFiles/getListFiles");
+const checkSession_1 = require("./checkSession/checkSession");
+const downloadFile_1 = require("./downloadFile/downloadFile");
+const busboy = require("connect-busboy");
+const uploadFile_1 = require("./uploadFile/uploadFile");
+const ApiRouter = express.Router();
+exports.ApiRouter = ApiRouter;
+ApiRouter.post("/register", register_1.register);
+ApiRouter.post("/login", login_1.login);
+ApiRouter.get("/confirm-account/:token", confirmAccount_1.confirmAccount);
+ApiRouter.post("/refreshToken", refreshToken_1.refreshToken);
+ApiRouter.post("/getUserData", getUserData_1.getUserData);
+ApiRouter.post("/getListFiles", getListFiles_1.getListFiles);
+ApiRouter.post("/checkSession", checkSession_1.checkSession);
+ApiRouter.post("/downloadFile", downloadFile_1.downloadFile);
+ApiRouter.post("/uploadFile", busboy(), uploadFile_1.uploadFile);
+//# sourceMappingURL=ApiRouter.js.map
