@@ -1,1 +1,0 @@
-{"version":3,"file":"Database.js","sourceRoot":"","sources":["../../src/mongoose/Database.ts"],"names":[],"mappings":";;;AAAA,uCAA6C;AAEhC,QAAA,iBAAiB,GAAG,GAAG,EAAE,CAAC,kBAAO,CAAC,iCAAiC,EAAC;IAC7E,eAAe,EAAC,IAAI;IACpB,kBAAkB,EAAE,IAAI;IACxB,cAAc,EAAE,IAAI;CACvB,CAAC,CAAC;AAEU,QAAA,QAAQ,GAAG,qBAAU,CAAC"}

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "build",
+    "sourceMap": true,
+    "removeComments": true,
+    "noImplicitAny": true
+  },
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+    "node_modules",
+    ".vscode",
+    ".idea",
+    "typings",
+    "./src/public"
+  ]
+}
