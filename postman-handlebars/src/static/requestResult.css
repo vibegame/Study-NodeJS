@@ -1,0 +1,19 @@
+.requestResult {
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.requestResult .result {
+    color: #5C719A;
+    padding: 10px;
+    box-sizing: border-box;
+    resize: none;
+    width: 500px;
+    height: 300px;
+    overflow-y: auto;
+    outline: none;
+}
+
+.requestResult .result.error {
+    color: crimson;
+}

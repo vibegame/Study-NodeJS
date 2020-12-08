@@ -1,0 +1,101 @@
+.fields > *:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.fields {
+    padding: 20px 10px 0 10px;
+}
+
+.fields button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    background: #92A4C8;
+    color: #ffffff;
+}
+
+#postman_fields_select-method_type {
+    background: #E7E7E7;
+    padding: 8px;
+}
+
+#postman_fields_params_list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+#postman_fields_params_list > *:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+#postman_fields_params_list .item {
+    display: flex;
+    align-items: center;
+}
+
+#postman_fields_params_list .input-name {
+    margin-right: 10px;
+}
+
+#postman_fields_params_list .input-name, .input-value {
+    outline: none;
+    height: 40px;
+    border: solid 1px #92A4C8;
+    padding: 0 6px;
+    border-radius: 12px;
+}
+
+#postman_fields_params_list .delete-btn {
+    margin-left: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+#postman_fields_headers_list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+#postman_fields_headers_list > *:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+#postman_fields_headers_list .item {
+    display: flex;
+    align-items: center;
+}
+
+#postman_fields_headers_list .input-name {
+    margin-right: 10px;
+}
+
+#postman_fields_headers_list .input-name, .input-value {
+    outline: none;
+    height: 40px;
+    border: solid 1px #92A4C8;
+    padding: 0 6px;
+    border-radius: 12px;
+}
+
+#postman_fields_headers_list .delete-btn {
+    margin-left: 5px;
+}
+
+#postman_requestBtn {
+    padding: 6px 12px;
+    background: #477ADF;
+}
+
+#postman_request-result_info {
+    color: crimson;
+}

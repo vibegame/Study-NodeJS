@@ -1,0 +1,50 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+    color: #5C719A;
+}
+
+header h1 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+header h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header h3 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+label.postman_field {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+label.postman_field span.title {
+    margin-right: 5px;
+}
+
+label.postman_field input.input {
+    outline: none;
+    height: 100%;
+    border: solid 1px #92A4C8;
+    padding: 0 6px;
+    border-radius: 12px;
+}
+
+label.postman_field input.input::placeholder {
+    color: #E7E7E7;
+}
+
+.leftRightContainer {
+    display: flex;
+}

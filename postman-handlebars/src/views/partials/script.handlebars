@@ -1,0 +1,340 @@
+<script>
+
+    class Param {
+        name;
+        value;
+
+        constructor(name, value) {
+            this.name = name;
+            this.value = value;
+        }
+    }
+
+    class Header {
+        name;
+        value;
+
+        constructor(name, value) {
+            this.name = name;
+            this.value = value;
+        }
+    }
+
+    const METHOD_TYPES = {
+        GET: {
+            title: "GET",
+            value: "GET"
+        },
+        POST: {
+            title: "POST",
+            value: "POST"
+        }
+    };
+
+    let method = METHOD_TYPES.GET;
+
+    let url = "";
+
+    let contentType = "";
+
+    let params = [];
+
+    let headers = [];
+
+    const requestList = document.querySelector(".requestsList .list");
+
+    const appendParam = (param) => {
+        const listParamsElement = document.getElementById("postman_fields_params_list");
+
+        const container = document.createElement("div");
+        const inputName = document.createElement("input");
+        inputName.type = "text";
+        inputName.value = param.name;
+        inputName.placeholder = "Название";
+        inputName.oninput = event => {
+            param.name = event.currentTarget.value;
+        };
+        container.appendChild(inputName);
+
+        const inputValue = document.createElement("input");
+        inputValue.type = "text";
+        inputValue.value = param.value;
+        inputValue.placeholder = "Значение";
+        inputValue.oninput = event => {
+            param.value = event.currentTarget.value;
+        };
+        container.appendChild(inputValue);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerHTML = "Удалить";
+        deleteBtn.onclick = () => {
+            container.remove();
+            params = params.filter(_param => _param !== param);
+        };
+        container.appendChild(deleteBtn);
+
+        container.className = "item";
+        inputName.className = "input-name";
+        inputValue.className = "input-value";
+        deleteBtn.className = "delete-btn";
+
+
+        listParamsElement.appendChild(container);
+    };
+
+    const appendHeader = (header) => {
+        const listHeadersElement = document.getElementById("postman_fields_headers_list");
+        const container = document.createElement("div");
+        const inputName = document.createElement("input");
+        inputName.type = "text";
+        inputName.value = header.name;
+        inputName.placeholder = "Название";
+        inputName.oninput = event => {
+            header.name = event.currentTarget.value;
+        };
+        container.appendChild(inputName);
+
+        const inputValue = document.createElement("input");
+        inputValue.type = "text";
+        inputValue.value = header.value;
+        inputValue.placeholder = "Значение";
+        inputValue.oninput = event => {
+            header.value = event.currentTarget.value;
+        };
+        container.appendChild(inputValue);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerHTML = "Удалить";
+        deleteBtn.onclick = () => {
+            container.remove();
+            headers = headers.filter(_param => _param !== header);
+        };
+        container.appendChild(deleteBtn);
+
+        container.className = "item";
+        inputName.className = "input-name";
+        inputValue.className = "input-value";
+        deleteBtn.className = "delete-btn";
+
+
+        listHeadersElement.appendChild(container);
+    };
+
+    const appendRequestListItem = (requestData) => {
+        const itemContainerElement = document.createElement("div");
+
+        const methodElement = document.createElement("span");
+        methodElement.innerHTML = requestData.method;
+
+        const urlElement = document.createElement("span");
+        urlElement.innerHTML = requestData.url;
+
+        itemContainerElement.className = "item";
+        urlElement.className = "url";
+        methodElement.className = "method";
+
+        itemContainerElement.appendChild(methodElement);
+        itemContainerElement.appendChild(urlElement);
+        requestList.appendChild(itemContainerElement);
+
+        itemContainerElement.onclick = event => {
+            url = requestData.url;
+            Object.entries(METHOD_TYPES).forEach(([key, {value}]) => {
+                if(requestData.method === value) {
+                    method = METHOD_TYPES[key];
+                }
+            });
+            contentType = headers["Content-Type"] || headers["content-type"] || "";
+            headers = Object.entries(requestData.headers).map(([name, value])=> new Header(name, value));
+            params = Object.entries(requestData.params).map(([name, value])=> new Param(name, value));
+
+            updateUrl();
+            updateMethod();
+            updateContentType();
+            updateHeaders();
+            updateParams();
+        };
+
+    };
+
+    const renderRequestsList = async () => {
+        requestList.innerHTML = "";
+
+        const response = await fetch("http://localhost:1080/proxy/list/requests", {
+            method: "GET"
+        });
+
+        const data = await response.json();
+
+        if(Array.isArray(data)) {
+            data.forEach(item => appendRequestListItem(item.requestData));
+        }
+    };
+
+    (async () => {
+        await renderRequestsList();
+    })();
+
+    const updateUrl = () => {
+        const urlFieldElement = document.getElementById("postman_fields_url_input");
+
+        urlFieldElement.value = url;
+    };
+
+    const updateContentType = () => {
+        const contentTypeFieldElement = document.getElementById("postman_fields_content-type_input");
+
+        contentTypeFieldElement.value = contentType;
+    };
+
+    const updateMethod = () => {
+        const methodTypeElement = document.getElementById("postman_fields_select-method_type");
+        methodTypeElement.innerHTML = method.title;
+    };
+
+    const updateParams = () => {
+        const listParamsElement = document.getElementById("postman_fields_params_list");
+        listParamsElement.innerHTML = "";
+        params.forEach(appendParam);
+    };
+
+    const updateHeaders = () => {
+        const listHeadersElement = document.getElementById("postman_fields_headers_list");
+        listHeadersElement.innerHTML = "";
+
+        headers.forEach(appendHeader);
+    };
+
+    //URL
+    (() => {
+
+        const urlFieldElement = document.getElementById("postman_fields_url_input");
+
+        updateUrl();
+
+        urlFieldElement.addEventListener("input", (event) => {
+            url = event.currentTarget.value;
+        });
+    })();
+
+    // Method
+    (() => {
+        const methodTypeElement = document.getElementById("postman_fields_select-method_type");
+
+        const changeMethodTypeElement = document.getElementById("postman_fields_select-method_change-type");
+
+        methodTypeElement.innerHTML = method.title;
+
+        changeMethodTypeElement.addEventListener("click", event => {
+
+            switch (method) {
+                case METHOD_TYPES.GET:
+                    method = METHOD_TYPES.POST;
+                    methodTypeElement.innerHTML = method.title;
+                    break;
+                case METHOD_TYPES.POST:
+                    method = METHOD_TYPES.GET;
+                    methodTypeElement.innerHTML = method.title;
+                    break;
+                default:
+                    throw new Error("Method type not found");
+            }
+
+        });
+    })();
+
+    // Content-Type
+    (() => {
+        const contentTypeFieldElement = document.getElementById("postman_fields_content-type_input");
+
+        contentTypeFieldElement.value = contentType;
+
+        contentTypeFieldElement.addEventListener("input", event => {
+            contentType = event.currentTarget.value;
+        });
+    })();
+
+    // Params
+    (() => {
+        const addParamsElement = document.getElementById("postman_fields_params_add");
+        const listParamsElement = document.getElementById("postman_fields_params_list");
+
+        listParamsElement.innerHTML = "";
+
+        addParamsElement.addEventListener("click", event => {
+            params.push(new Param("", ""));
+            appendParam(params[params.length - 1]);
+        });
+    })();
+
+    // Headers
+    (() => {
+        const addHeaderElement = document.getElementById("postman_fields_headers_add");
+        const listHeadersElement = document.getElementById("postman_fields_headers_list");
+
+        listHeadersElement.innerHTML = "";
+
+        addHeaderElement.addEventListener("click", event => {
+            headers.push(new Header("", ""));
+            appendHeader(headers[headers.length - 1]);
+        });
+    })();
+
+
+
+    (() => {
+        const requestBtn = document.getElementById("postman_requestBtn");
+
+        requestBtn.onclick = async () => {
+
+            const requestResult = document.querySelector(".requestResult .result");
+
+            let requestParams = params.reduce((result, param) => {
+                result[param.name] = param.value;
+                return result;
+            }, {});
+
+            const requestHeaders = headers.reduce((result, header) => {
+                result[header.name] = header.value;
+                return result;
+            }, {});
+
+            if (contentType) {
+                requestHeaders["Content-Type"] = contentType;
+            }
+
+            const requestData = {
+                url,
+                method: method.value,
+                params: requestParams,
+                headers: requestHeaders
+            };
+
+            const response = await fetch("http://localhost:1080/proxy", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    url,
+                    method: method.value,
+                    params: requestParams,
+                    headers: requestHeaders
+                })
+            });
+
+            const data = await response.json();
+
+            if("__error" in data) {
+                requestResult.value = data.__error;
+                requestResult.classList.add("error");
+            }
+            else {
+                requestResult.value = JSON.stringify(data);
+                requestResult.classList.remove("error");
+                appendRequestListItem(requestData);
+            }
+        };
+    })();
+
+</script>

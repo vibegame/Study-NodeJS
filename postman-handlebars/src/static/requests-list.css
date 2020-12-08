@@ -1,0 +1,28 @@
+.requestsList {
+
+}
+
+.requestsList .list {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.requestsList .list .item {
+    padding: 8px 10px;
+    cursor: pointer;
+
+}
+
+.requestsList .list .item:hover {
+    background: #E7E7E7;
+}
+
+.requestsList .list .item .url {
+
+}
+
+.requestsList .list .item .method {
+    font-size: 16px;
+    margin-right: 10px;
+}

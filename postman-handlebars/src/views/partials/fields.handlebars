@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="fields.css">
+
+<div class="fields">
+    <label for="postman_fields_url" class="postman_field">
+        <span class="title">URL запроса: </span>
+        <input
+                id="postman_fields_url_input"
+                type="text"
+                placeholder="example.com_api"
+                class="input"
+        >
+    </label>
+
+    <div class="postman_fields_select-method">
+        <span id="postman_fields_select-method_type">GET</span>
+        <button id="postman_fields_select-method_change-type">Change</button>
+    </div>
+
+    <div id="postman_fields_params">
+        <span>Параметры: </span>
+        <button id="postman_fields_params_add">Добавить</button>
+        <div id="postman_fields_params_list">
+        </div>
+    </div>
+
+    <label for="postman_fields_content-type" class="postman_field">
+        <span class="title">Content-Type: </span>
+        <input
+                id="postman_fields_content-type_input"
+                type="text"
+                placeholder="application_json"
+                class="input"
+        >
+    </label>
+
+    <div id="postman_fields_headers">
+        <span>Заголовки: </span>
+        <button id="postman_fields_headers_add">Добавить</button>
+        <div id="postman_fields_headers_list">
+        </div>
+    </div>
+
+    <button id="postman_requestBtn">Отправить</button>
+</div>
+
+
+
