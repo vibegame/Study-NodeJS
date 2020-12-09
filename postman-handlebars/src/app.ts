@@ -15,7 +15,6 @@ const runApplication = async ({port}: { port: number | unknown }) => {
 
     const app = express();
 
-
     app.set("views", __dirname + "/views");
     app.set("view engine", "handlebars");
 

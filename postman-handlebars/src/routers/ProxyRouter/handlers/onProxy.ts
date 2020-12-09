@@ -45,7 +45,6 @@ const post = (url: string, params: Params, headers: Headers) => {
 };
 
 export const onProxy: RequestHandler = async (req: ProxyRequest, res) => {
-
     let response;
 
     try {
@@ -63,6 +62,7 @@ export const onProxy: RequestHandler = async (req: ProxyRequest, res) => {
             timestamp: Date.now(),
             requestData: req.body
         });
+        terminal.success(savedRequests);
     } catch (error) {
         terminal.error(error.message);
         res.status(500).send({
